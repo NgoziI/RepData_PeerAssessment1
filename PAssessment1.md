@@ -1,4 +1,9 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
 
 
 ## Loading and preprocessing the data
@@ -6,26 +11,6 @@
 
 ```r
 library(dplyr)
-```
-
-```
-## Warning: package 'dplyr' was built under R version 3.2.2
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 # Set your working directory to where the 'activity.csv' file is located.
 Activity <- read.csv("activity.csv")
 Activity <- mutate(Activity, Weekday = weekdays(as.POSIXlt(Activity$date)), date = strftime(Activity$date, "%m-%d-%y"))
@@ -37,20 +22,13 @@ Activity <- mutate(Activity, Weekday = weekdays(as.POSIXlt(Activity$date)), date
 
 ```r
 library(ggplot2)
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 3.2.2
-```
-
-```r
 TotalStepPerDay <- group_by(Activity,date) %>% 
         summarize(TotalperDay = sum(steps, na.rm = TRUE))
 
 qplot(TotalperDay, data = TotalStepPerDay,binwidth = 500)
 ```
 
-![](PAssessment1_files/figure-html/TotalperDay-1.png) 
+![plot of chunk TotalperDay](figure/TotalperDay-1.png) 
 
 ```r
 mean(TotalStepPerDay$TotalperDay)
@@ -82,7 +60,7 @@ g + geom_line() + labs(x = "5-minute interval") +
         labs(y = "Average number of steps")
 ```
 
-![](PAssessment1_files/figure-html/DailyActivityPattern-1.png) 
+![plot of chunk DailyActivityPattern](figure/DailyActivityPattern-1.png) 
 
 ## Imputing missing values
 
@@ -116,7 +94,7 @@ TotalStepPerDay <- group_by(Activity,date) %>%
 qplot(TotalperDay, data = TotalStepPerDay,binwidth = 500)
 ```
 
-![](PAssessment1_files/figure-html/MissingValues-1.png) 
+![plot of chunk MissingValues](figure/MissingValues-1.png) 
 
 ```r
 mean(TotalStepPerDay$TotalperDay)
@@ -151,4 +129,4 @@ g + geom_line() + facet_grid(WeekType ~ .) +
         ylim(-100, 300)
 ```
 
-![](PAssessment1_files/figure-html/ActivityPatterns-1.png) 
+![plot of chunk ActivityPatterns](figure/ActivityPatterns-1.png) 
